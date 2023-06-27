@@ -24,9 +24,9 @@ public class TippingClass {
 	
 		
 		// Defini��es de vari�veis de entrada FIS
-		System.out.println("Qual a altura do cavalo em uma escala de (1-baixo 10-alto), sabendo que a altura media é de 1,54cm?");
+		System.out.println("Qual a altura do cavalo em uma escala de (110-baixo 190-alto)?");
 		altura = ler.nextFloat();
-		System.out.println("Qual o peso do cavalo em uma escala de (1-magro 10-obeso), sabendo que o peso medio é de 600kg?");
+		System.out.println("Qual o peso do cavalo em uma escala de (200-magro 900-obeso)?");
 		peso = ler.nextFloat();
 		fb.setVariable("altura", altura);  //8,5
 		fb.setVariable("peso", peso);  //7,5  tip=19.99999

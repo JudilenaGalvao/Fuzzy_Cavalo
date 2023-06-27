@@ -20,31 +20,31 @@ END_VAR
 
 
 FUZZIFY altura			// Fuzzify input variable 'altura': {'baixo', 'medio' , 'alto'}
-	TERM baixo := (0, 1) (4, 0) ; 
-	TERM media := (2, 0) (4,1) (5,1) (7,0);
-	TERM alta := (5, 0) (9, 1);
+	TERM baixo := (110, 1) (140, 0) ; 
+	TERM media := (120, 0) (140,1) (160,1) (180,0);
+	TERM alta := (160, 0) (190, 1);
 END_FUZZIFY
 
 FUZZIFY peso			// Fuzzify input variable 'peso': { 'magro', 'ideal', 'gordo', 'obeso' }
-	TERM magro := (0,1) (4,1);
-	TERM ideal := (3, 0) (4,1) (5,1) (6,0);
-	TERM gordo := (5,0) (7,1) (8,0);
-	TERM obeso := (7,0) (9,1);
+	TERM magro := (200,1) (500,0);
+	TERM ideal := (400, 0) (500,1) (600,1) (700,0);
+	TERM gordo := (650,0) (750,1) (850,0);
+	TERM obeso := (800,0) (900,1);
 END_FUZZIFY
 
 
-DEFUZZIFY racao			// Defuzzify output variable 'racao' : {'cheap', 'average', 'generous' }
+DEFUZZIFY racao			// Defuzzify output variable 'racao' : {'poucaR', 'mediaBoaR', 'generosaR' }
 	TERM poucaR := (0,0) (15,1) (30,0);
 	TERM mediaBoaR := (30,0) (45,1) (60,0);
-	TERM otimaR := (60,0) (75,1) (90,0);
+	TERM generosaR := (60,0) (75,1) (90,0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
-DEFUZZIFY volumoso			// Defuzzify output variable 'volumoso' : {'cheap', 'average', 'generous' }
-	TERM otimaV := (0,0) (15,1) (30,0);
+DEFUZZIFY volumoso			// Defuzzify output variable 'volumoso' : {'poucaV', 'mediaBoaV', 'generosaV' }
+	TERM poucaV := (0,0) (15,1) (30,0);
 	TERM mediaBoaV := (30,0) (45,1) (60,0);
-	TERM poucaV := (60,0) (75,1) (90,0);
+	TERM generosaV := (60,0) (75,1) (90,0);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -56,12 +56,11 @@ RULEBLOCK No1
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'max' accumulation method
 
-	RULE 1 : IF altura IS baixo AND peso IS magro THEN racao IS mediaBoaR;
-	RULE 2 : IF altura IS baixo AND peso IS gordo THEN racao IS otimaR;
+	RULE 1 : IF altura IS baixo AND peso IS magro THEN racao IS poucaR;
+	RULE 2 : IF altura IS baixo AND peso IS gordo THEN racao IS generosaR;
 	RULE 3 : IF altura IS media OR peso IS ideal THEN racao IS mediaBoaR;
 	RULE 4 : IF altura IS alta AND peso IS magro THEN racao IS poucaR;
-	RULE 5 : IF altura IS alta AND peso IS gordo THEN racao IS mediaBoaR;
-	RULE 6 : IF peso IS obeso THEN racao IS otimaR;
+	RULE 5 : IF peso IS obeso THEN racao IS generosaR;
 END_RULEBLOCK
 
 RULEBLOCK No2
@@ -70,12 +69,11 @@ RULEBLOCK No2
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'max' accumulation method
 
-	RULE 1 : IF altura IS baixo AND peso IS magro THEN volumoso IS otimaV;
-	RULE 2 : IF altura IS baixo AND peso IS gordo THEN volumoso IS poucaV; 
+	RULE 1 : IF altura IS baixo AND peso IS magro THEN volumoso IS generosaV;
+	RULE 2 : IF altura IS baixo AND peso IS gordo THEN volumoso IS poucaV;
 	RULE 3 : IF altura IS media OR peso IS ideal THEN volumoso IS mediaBoaV;
-	RULE 4 : IF altura IS alta AND peso IS magro THEN volumoso IS otimaV;
-	RULE 5 : IF altura IS alta AND peso IS gordo THEN volumoso IS mediaBoaV;
-	RULE 6 : IF peso IS obeso THEN volumoso IS poucaV;
+	RULE 4 : IF altura IS alta AND peso IS magro THEN volumoso IS generosaV;
+	RULE 5 : IF peso IS obeso THEN volumoso IS poucaV;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
